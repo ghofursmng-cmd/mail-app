@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('surat_masuks', function (Blueprint $table) {
             $table->string('nomor_surat')->after('nomor_agenda');
+        });
+        Schema::table('surat_masuks', function (Blueprint $table) {
             $table->string('asal_surat')->after('nomor_surat');
         });
     }

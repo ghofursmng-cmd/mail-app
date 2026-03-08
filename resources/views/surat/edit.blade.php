@@ -1,72 +1,90 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/70 p-8 rounded-2xl glass">
-        <div class="mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Edit Surat Masuk</h2>
-            <p class="text-gray-500 text-sm">Ubah data surat masuk yang sudah ada.</p>
+<div class="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <!-- Page Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Edit Surat Masuk</h1>
+            <p class="text-slate-500 mt-1 font-medium italic">Perbarui informasi detail surat masuk.</p>
         </div>
+        <a href="{{ route('surat.index') }}" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </a>
+    </div>
 
-        @if ($errors->any())
-            <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <div class="ml-3">
-                        <h3 class="text-sm font-medium text-red-800">Terdapat kesalahan input:</h3>
-                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        @endif
-
-        <form action="{{ route('surat.update', $surat->id) }}" method="POST" class="space-y-5">
+    <!-- Form Container -->
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
+        <form action="{{ route('surat.update', $suratMasuk->id) }}" method="POST" class="space-y-8">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Surat</label>
-                    <input type="date" name="tanggal_surat" value="{{ $surat->tanggal_surat }}" required class="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Group 1: Identitas Agenda -->
+                <div class="space-y-6">
+                    <p class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest border-b border-indigo-50 pb-2">Identitas Agenda</p>
+                    
+                    <div>
+                        <label for="nomor_agenda" class="block text-sm font-bold text-slate-700 mb-2">Nomor Agenda</label>
+                        <input type="text" name="nomor_agenda" id="nomor_agenda" value="{{ old('nomor_agenda', $suratMasuk->nomor_agenda) }}" required
+                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium @error('nomor_agenda') border-red-500 @enderror">
+                        @error('nomor_agenda') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="tanggal_terima" class="block text-sm font-bold text-slate-700 mb-2">Tanggal Diterima</label>
+                        <input type="date" name="tanggal_terima" id="tanggal_terima" value="{{ old('tanggal_terima', $suratMasuk->tanggal_terima) }}" required
+                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium @error('tanggal_terima') border-red-500 @enderror">
+                        @error('tanggal_terima') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Agenda</label>
-                    <input type="text" name="nomor_agenda" value="{{ $surat->nomor_agenda }}" required class="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+
+                <!-- Group 2: Detail Surat -->
+                <div class="space-y-6">
+                    <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest border-b border-emerald-50 pb-2">Detail Surat</p>
+
+                    <div>
+                        <label for="nomor_surat" class="block text-sm font-bold text-slate-700 mb-2">Nomor Surat</label>
+                        <input type="text" name="nomor_surat" id="nomor_surat" value="{{ old('nomor_surat', $suratMasuk->nomor_surat) }}" required
+                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium @error('nomor_surat') border-red-500 @enderror">
+                        @error('nomor_surat') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label for="tanggal_surat" class="block text-sm font-bold text-slate-700 mb-2">Tanggal Surat</label>
+                        <input type="date" name="tanggal_surat" id="tanggal_surat" value="{{ old('tanggal_surat', $suratMasuk->tanggal_surat) }}" required
+                            class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium @error('tanggal_surat') border-red-500 @enderror">
+                        @error('tanggal_surat') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Full Width Fields -->
+            <div class="space-y-6 pt-4 border-t border-slate-50">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Surat</label>
-                    <input type="text" name="nomor_surat" value="{{ $surat->nomor_surat }}" required class="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                    <label for="asal_surat" class="block text-sm font-bold text-slate-700 mb-2">Asal Surat</label>
+                    <input type="text" name="asal_surat" id="asal_surat" value="{{ old('asal_surat', $suratMasuk->asal_surat) }}" required
+                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium @error('asal_surat') border-red-500 @enderror">
+                    @error('asal_surat') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
+
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Asal Surat</label>
-                    <input type="text" name="asal_surat" value="{{ $surat->asal_surat }}" required class="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                    <label for="perihal" class="block text-sm font-bold text-slate-700 mb-2">Perihal</label>
+                    <textarea name="perihal" id="perihal" rows="4" required
+                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-medium @error('perihal') border-red-500 @enderror">{{ old('perihal', $suratMasuk->perihal) }}</textarea>
+                    @error('perihal') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Diterima Tanggal</label>
-                <input type="date" name="tanggal_terima" value="{{ $surat->tanggal_terima }}" required class="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Perihal Isi Surat</label>
-                <textarea name="perihal" rows="4" required class="w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">{{ $surat->perihal }}</textarea>
-            </div>
-
-            <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-100">
-                <a href="{{ route('surat.index') }}" class="text-gray-500 hover:text-gray-700 font-medium px-4">Batal</a>
-                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2.5 rounded-xl font-medium transition-all shadow-lg shadow-indigo-200">
-                    Update Surat
+            <!-- Action Buttons -->
+            <div class="flex items-center justify-end gap-3 pt-6">
+                <a href="{{ route('surat.index') }}" class="px-8 py-3.5 rounded-2xl font-bold text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all text-sm">
+                    Batal
+                </a>
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-3.5 rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 hover:-translate-y-0.5 active:scale-95 text-sm">
+                    Perbarui Data
                 </button>
             </div>
         </form>

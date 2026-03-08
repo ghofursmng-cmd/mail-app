@@ -5,14 +5,14 @@
     <!-- Page Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Surat Keluar</h1>
-            <p class="text-slate-500 mt-1 font-medium">Manajemen arsip surat masuk yang dikirimkan.</p>
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Pengaturan Menu</h1>
+            <p class="text-slate-500 mt-1 font-medium italic">Kelola navigasi sidebar aplikasi secara dinamis.</p>
         </div>
-        <a href="{{ route('surat-keluar.create') }}" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-emerald-100 hover:-translate-y-0.5 active:scale-95 text-sm">
+        <a href="{{ route('menu.create') }}" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl font-bold transition-all shadow-lg shadow-indigo-100 hover:-translate-y-0.5 active:scale-95 text-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
-            Tambah Surat
+            Tambah Menu
         </a>
     </div>
 
@@ -22,40 +22,44 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50/50">
-                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Agenda/Tanggal</th>
-                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Nomor Surat</th>
-                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Tujuan</th>
-                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Perihal</th>
+                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Urutan</th>
+                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Nama Menu</th>
+                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Route/URL</th>
+                        <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Icon</th>
                         <th class="py-5 px-6 font-bold text-slate-400 uppercase tracking-widest text-[10px] text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($suratKeluars as $surat)
+                    @forelse($menus as $menu)
                         <tr class="hover:bg-slate-50/50 transition-colors group">
                             <td class="py-5 px-6">
-                                <div class="flex flex-col">
-                                    <span class="text-[11px] text-slate-400 font-medium uppercase tracking-tighter">{{ \Carbon\Carbon::parse($surat->tanggal_surat)->format('d M Y') }}</span>
+                                <span class="text-sm font-bold text-indigo-600">#{{ $menu->order }}</span>
+                            </td>
+                            <td class="py-5 px-6">
+                                <span class="text-sm font-bold text-slate-800">{{ $menu->name }}</span>
+                            </td>
+                            <td class="py-5 px-6">
+                                <code class="text-[11px] bg-slate-100 px-2 py-1 rounded text-slate-500 font-mono">{{ $menu->url }}</code>
+                            </td>
+                            <td class="py-5 px-6 font-bold">
+                                <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 border border-slate-100">
+                                    @if($menu->icon)
+                                        {!! $menu->icon !!}
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                                        </svg>
+                                    @endif
                                 </div>
-                            </td>
-                            <td class="py-5 px-6">
-                                <span class="text-sm font-semibold text-slate-700 leading-tight">{{ $surat->nomor_surat }}</span>
-                            </td>
-                            <td class="py-5 px-6">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[11px] font-bold border border-emerald-100">
-                                    {{ $surat->tujuan_surat }}
-                                </span>
-                            </td>
-                            <td class="py-5 px-6">
-                                <p class="text-sm text-slate-600 line-clamp-2 max-w-xs leading-relaxed font-medium">{{ Str::limit($surat->perihal, 60) }}</p>
                             </td>
                             <td class="py-5 px-6 text-right">
                                 <div class="flex justify-end items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <a href="{{ route('surat-keluar.edit', $surat->id) }}" class="p-2.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all" title="Edit">
+                                    <a href="{{ route('menu.edit', $menu->id) }}" class="p-2.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all" title="Edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.707.707-2.828-2.828.707-.707zM11.365 5.828l-8.591 8.591a1 1 0 00-.272.508l-1 4a1 1 0 001.213 1.213l4-1a1 1 0 00.508-.272l8.591-8.591-2.828-2.828z" />
                                         </svg>
                                     </a>
-                                    <form action="{{ route('surat-keluar.destroy', $surat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus surat ini?')" class="inline">
+                                    <form action="{{ route('menu.destroy', $menu->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus menu ini?')" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all" title="Delete">
@@ -73,10 +77,10 @@
                                 <div class="flex flex-col items-center gap-3">
                                     <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                                         </svg>
                                     </div>
-                                    <p class="text-slate-400 font-medium italic">Belum ada data surat keluar.</p>
+                                    <p class="text-slate-400 font-medium italic">Belum ada data menu.</p>
                                 </div>
                             </td>
                         </tr>
@@ -86,7 +90,7 @@
         </div>
         
         <div class="px-6 py-4 border-t border-slate-50 bg-slate-50/30">
-            {{ $suratKeluars->links() }}
+            {{ $menus->links() }}
         </div>
     </div>
 </div>
