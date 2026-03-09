@@ -3,7 +3,7 @@
 @section('content')
 <div class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
     <!-- Welcome Header -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/40 p-8 rounded-3xl premium-glass">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/90 p-8 rounded-3xl premium-glass shadow-sm">
         <div>
             <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Halo, {{ Auth::user()->name }}!</h1>
             <p class="text-slate-500 mt-1 font-medium italic">Selamat datang kembali di dashboard MailApp.</p>
