@@ -32,7 +32,15 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('surat', SuratMasukController::class);
+    Route::get('/surat-cetak', [SuratMasukController::class, 'print'])->name('surat.print');
+    Route::get('/surat-excel', [SuratMasukController::class, 'exportExcel'])->name('surat.excel');
+    Route::get('/surat-word', [SuratMasukController::class, 'exportWord'])->name('surat.word');
+
     Route::resource('surat-keluar', SuratKeluarController::class);
+    Route::get('/surat-keluar-cetak', [SuratKeluarController::class, 'print'])->name('surat-keluar.print');
+    Route::get('/surat-keluar-excel', [SuratKeluarController::class, 'exportExcel'])->name('surat-keluar.excel');
+    Route::get('/surat-keluar-word', [SuratKeluarController::class, 'exportWord'])->name('surat-keluar.word');
+
     Route::resource('menu', MenuController::class);
     Route::resource('user', UserController::class);
 });

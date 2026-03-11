@@ -90,4 +90,51 @@ class SuratMasukController extends Controller
 
         return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus.');
     }
+
+    public function print()
+    {
+        $suratMasuks = SuratMasuk::latest()->get();
+        return view('surat.report', compact('suratMasuks'));
+    }
+
+    public function exportExcel()
+    {
+        $suratMasuks = SuratMasuk::latest()->get();
+        $filename = "laporan_surat_masuk_" . date('Y-m-d') . ".csv";
+        
+        $handle = fopen('php://output', 'w');
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        
+        // Header
+        fputcsv($handle, ['No', 'Nomor Agenda', 'Tanggal Terima', 'Nomor Surat', 'Tanggal Surat', 'Asal Surat', 'Perihal']);
+        
+        foreach ($suratMasuks as $index => $surat) {
+            fputcsv($handle, [
+                $index + 1,
+                $surat->nomor_agenda,
+                $surat->tanggal_terima,
+                $surat->nomor_surat,
+                $surat->tanggal_surat,
+                $surat->asal_surat,
+                $surat->perihal
+            ]);
+        }
+        
+        fclose($handle);
+        exit;
+    }
+
+    public function exportWord()
+    {
+        $suratMasuks = SuratMasuk::latest()->get();
+        $filename = "laporan_surat_masuk_" . date('Y-m-d') . ".doc";
+        
+        header("Content-Type: application/vnd.ms-word");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-disposition: attachment; filename=" . $filename);
+        
+        return view('surat.report', compact('suratMasuks'));
+    }
 }
