@@ -6,17 +6,22 @@
     <title>Laporan Surat Keluar - {{ date('d M Y') }}</title>
     <style>
         body { font-family: 'Times New Roman', serif; color: #000; line-height: 1.2; padding: 10px; }
-        .kop-surat { text-align: center; margin-bottom: 20px; border-bottom: 4px double #000; padding-bottom: 10px; }
-        .kop-surat h2 { margin: 0; font-size: 20px; text-transform: uppercase; }
-        .kop-surat h1 { margin: 0; font-size: 24px; text-transform: uppercase; font-weight: bold; }
-        .kop-surat p { margin: 2px 0; font-size: 12px; font-style: italic; }
         
+        .kop-container { display: flex; align-items: center; border-bottom: 4px double #000; padding-bottom: 15px; margin-bottom: 20px; }
+        .logo-box { width: 80px; text-align: left; }
+        .logo-box img { width: 70px; height: auto; }
+        .kop-text { flex: 1; text-align: center; }
+        .kop-text h2 { margin: 0; font-size: 18px; text-transform: uppercase; font-weight: normal; }
+        .kop-text h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: bold; }
+        .kop-text p { margin: 2px 0; font-size: 11px; font-style: normal; }
+        .kop-text .website { font-weight: bold; }
+
         .title { text-align: center; margin: 20px 0; }
         .title h3 { text-decoration: underline; text-transform: uppercase; margin: 0; font-size: 16px; }
         .title p { margin: 5px 0; font-size: 14px; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #000; padding: 8px 5px; text-align: left; font-size: 12px; }
+        th, td { border: 1px solid #000; padding: 8px 5px; text-align: left; font-size: 11px; }
         th { background-color: #f2f2f2; font-weight: bold; text-align: center; text-transform: uppercase; }
         
         .ttd-container { margin-top: 40px; width: 100%; }
@@ -31,11 +36,17 @@
     </style>
 </head>
 <body onload="if(window.location.search.indexOf('print') > -1) window.print()">
-    <div class="kop-surat">
-        <h2>PEMERINTAH REPUBLIK INDONESIA</h2>
-        <h1>INSTANSI PERSURATAN DIGITAL</h1>
-        <p>Jl. Jenderal Sudirman No. 123, Jakarta Pusat | Telp: (021) 555-0123</p>
-        <p>Email: admin@mailapp.premium | Website: www.mailapp.premium</p>
+    <div class="kop-container">
+        <div class="logo-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Logo_Kabupaten_Jepara.png" alt="Logo Jepara">
+        </div>
+        <div class="kop-text">
+            <h2>PEMERINTAH KABUPATEN JEPARA</h2>
+            <h1>DINAS PENDIDIKAN, PEMUDA DAN OLAHRAGA</h1>
+            <p>Jalan Ratu Kalinyamat, Demaan - Jepara Telp. 0291-591238, Fax 0291-593347</p>
+            <p class="website">Website: http://disdikpora.jepara.go.id Kode Pos 59419</p>
+        </div>
+        <div style="width: 80px;"></div> <!-- Balancer -->
     </div>
 
     <div class="title">
@@ -68,9 +79,9 @@
 
     <div class="ttd-container">
         <div class="ttd-box">
-            <p>Jakarta, {{ date('d F Y') }}</p>
+            <p>Jepara, {{ date('d F Y') }}</p>
             <p>Mengetahui,</p>
-            <p><strong>Kepala Bagian Tata Usaha</strong></p>
+            <p><strong>Kepala Bidang PTK</strong></p>
             <div class="ttd-space"></div>
             <p class="ttd-name">( ............................................ )</p>
             <p>NIP. ........................................</p>
@@ -79,7 +90,7 @@
     </div>
 
     <div class="no-print" style="margin-top: 30px; text-align: center;">
-        <button onclick="window.print()" style="padding: 12px 25px; background: #000; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">CETAK SEKARANG</button>
+        <button onclick="window.print()" style="padding: 12px 25px; background: #000; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">CETAK LAPORAN</button>
         <button onclick="window.history.back()" style="padding: 12px 25px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-left:10px;">KEMBALI</button>
     </div>
 </body>
