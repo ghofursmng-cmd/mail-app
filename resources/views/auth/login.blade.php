@@ -15,8 +15,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight mb-2">Selamat Datang</h2>
-                <p class="text-slate-500 font-medium italic">Sistem Manajemen Surat Digital</p>
+                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight mb-2">DISDIKPORA JEPARA</h2>
+                <p class="text-slate-500 font-medium italic">Sistem Manajemen Surat (Bidang PTK)</p>
             </div>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-6">
