@@ -102,9 +102,12 @@ class SuratMasukController extends Controller
         $suratMasuks = SuratMasuk::latest()->get();
         $filename = "laporan_surat_masuk_" . date('Y-m-d') . ".csv";
         
-        $handle = fopen('php://output', 'w');
-        header('Content-Type: text/csv');
+        header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
+        
+        $handle = fopen('php://output', 'w');
+        // Add BOM for Excel UTF-8 recognition
+        fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
         
         // Header
         fputcsv($handle, ['No', 'Nomor Agenda', 'Tanggal Terima', 'Nomor Surat', 'Tanggal Surat', 'Asal Surat', 'Perihal']);
@@ -130,10 +133,11 @@ class SuratMasukController extends Controller
         $suratMasuks = SuratMasuk::latest()->get();
         $filename = "laporan_surat_masuk_" . date('Y-m-d') . ".doc";
         
+        header("Content-Type: application/msword");
         header("Content-Type: application/vnd.ms-word");
         header("Expires: 0");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-disposition: attachment; filename=" . $filename);
+        header("Content-disposition: attachment; filename=\"" . $filename . "\"");
         
         return view('surat.report', compact('suratMasuks'));
     }
