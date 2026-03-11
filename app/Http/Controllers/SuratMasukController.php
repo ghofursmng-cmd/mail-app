@@ -100,32 +100,18 @@ class SuratMasukController extends Controller
     public function exportExcel()
     {
         $suratMasuks = SuratMasuk::latest()->get();
-        $filename = "laporan_surat_masuk_" . date('Y-m-d') . ".csv";
+        $filename = "laporan_surat_masuk_" . date('Y-m-d') . ".xls";
         
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+        header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Cache-Control: private", false);
+
+        // Add BOM for UTF-8 Excel support
+        echo chr(0xEF).chr(0xBB).chr(0xBF);
         
-        $handle = fopen('php://output', 'w');
-        // Add BOM for Excel UTF-8 recognition
-        fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
-        
-        // Header
-        fputcsv($handle, ['No', 'Nomor Agenda', 'Tanggal Terima', 'Nomor Surat', 'Tanggal Surat', 'Asal Surat', 'Perihal']);
-        
-        foreach ($suratMasuks as $index => $surat) {
-            fputcsv($handle, [
-                $index + 1,
-                $surat->nomor_agenda,
-                $surat->tanggal_terima,
-                $surat->nomor_surat,
-                $surat->tanggal_surat,
-                $surat->asal_surat,
-                $surat->perihal
-            ]);
-        }
-        
-        fclose($handle);
-        exit;
+        return view('surat.report', compact('suratMasuks'));
     }
 
     public function exportWord()
