@@ -7,9 +7,7 @@
     <style>
         body { font-family: 'Times New Roman', serif; color: #000; line-height: 1.2; padding: 10px; }
         
-        .kop-container { display: flex; align-items: center; border-bottom: 4px double #000; padding-bottom: 15px; margin-bottom: 20px; }
-        .logo-box { width: 80px; text-align: left; }
-        .logo-box img { width: 70px; height: auto; }
+        .kop-container { border-bottom: 4px double #000; padding-bottom: 15px; margin-bottom: 20px; }
         .kop-text { flex: 1; text-align: center; }
         .kop-text h2 { margin: 0; font-size: 18px; text-transform: uppercase; font-weight: normal; }
         .kop-text h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: bold; }
@@ -37,16 +35,12 @@
 </head>
 <body onload="if(window.location.search.indexOf('print') > -1) window.print()">
     <div class="kop-container">
-        <div class="logo-box">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Logo_Kabupaten_Jepara.png" alt="Logo Jepara">
-        </div>
         <div class="kop-text">
             <h2>PEMERINTAH KABUPATEN JEPARA</h2>
             <h1>DINAS PENDIDIKAN, PEMUDA DAN OLAHRAGA</h1>
             <p>Jalan Ratu Kalinyamat, Demaan - Jepara Telp. 0291-591238, Fax 0291-593347</p>
             <p class="website">Website: http://disdikpora.jepara.go.id Kode Pos 59419</p>
         </div>
-        <div style="width: 80px;"></div> <!-- Balancer -->
     </div>
 
     <div class="title">
