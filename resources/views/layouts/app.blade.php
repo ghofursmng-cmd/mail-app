@@ -59,25 +59,49 @@
         }
 
         .sidebar-item {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
+            transform-origin: left;
         }
 
         .sidebar-item:hover {
             color: var(--primary);
-            padding-left: 1.25rem;
+            padding-left: 1.5rem;
+            transform: scale(1.02) perspective(1000px) rotateY(5deg);
         }
 
         .active-nav {
             background: linear-gradient(135deg, #f5f8ff 0%, #ebf0ff 100%) !important;
             color: var(--primary) !important;
-            font-weight: 600;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.1);
+            position: relative;
         }
 
         .dark .active-nav {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
             color: var(--primary-light) !important;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+
+        .active-nav::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse-active 2s infinite;
+        }
+
+        @keyframes pulse-active {
+            0% { transform: translateY(-50%) scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+            70% { transform: translateY(-50%) scale(1.1); opacity: 0.5; box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+            100% { transform: translateY(-50%) scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
         }
 
         @keyframes float {
@@ -195,17 +219,22 @@
 
                     @if($hasChildren)
                         <div x-show="open" 
-                             x-transition:enter="transition ease-out duration-100"
-                             x-transition:enter-start="opacity-0 -translate-y-2"
-                             x-transition:enter-end="opacity-100 translate-y-0"
-                             class="mt-1 ml-9 space-y-1 border-l-2 border-slate-100 pl-4">
-                            @foreach($menu->children as $child)
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 -translate-y-4 scale-95 origin-top"
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100 origin-top"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 translate-y-0 scale-100 origin-top"
+                             x-transition:leave-end="opacity-0 -translate-y-4 scale-95 origin-top"
+                             class="mt-1 ml-9 space-y-1 border-l-2 border-slate-100 dark:border-slate-800 pl-4 overflow-hidden">
+                            @foreach($menu->children as $index => $child)
                                 @php
                                     $childIsRoute = Route::has($child->url);
                                     $childUrl = $childIsRoute ? route($child->url) : url($child->url);
                                     $childActive = $childIsRoute ? request()->routeIs($child->url . '*') : request()->is(trim($child->url, '/') . '*');
                                 @endphp
-                                <a href="{{ $childUrl }}" class="block px-3 py-2 text-sm font-medium rounded-lg transition-colors {{ $childActive ? 'text-indigo-600 bg-indigo-50/50' : 'text-slate-500 hover:text-indigo-600 hover:bg-slate-50' }}">
+                                <a href="{{ $childUrl }}" 
+                                   class="block px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 {{ $childActive ? 'text-indigo-600 bg-indigo-50/50 dark:bg-indigo-900/10' : 'text-slate-500 hover:text-indigo-600 hover:bg-slate-50 dark:hover:bg-slate-800' }} animate-entrance"
+                                   style="animation-delay: {{ ($index + 1) * 0.1 }}s">
                                     {{ $child->name }}
                                 </a>
                             @endforeach
